@@ -52,7 +52,9 @@ RUN docker-php-ext-install \
     gd \
     zip \
     bcmath \
-    imap
+
+RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
+	&& docker-php-ext-install imap 
 
 # Install composer
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
