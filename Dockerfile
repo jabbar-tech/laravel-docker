@@ -51,8 +51,7 @@ RUN docker-php-ext-install \
     xml \
     gd \
     zip \
-    bcmath \
-
+    bcmath
 RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
 	&& docker-php-ext-install imap 
 
