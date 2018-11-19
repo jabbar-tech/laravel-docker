@@ -26,9 +26,14 @@ RUN apk add --no-cache \
     nodejs-npm \
     openssh-client \
     postgresql-libs \
-    rsync
+    rsync \
+    imap-dev \
+    zlib-dev
+
 
 # Install PECL and PEAR extensions
+RUN pecl channel-update pecl.php.net
+
 RUN pecl install \
     imagick \
     xdebug
@@ -37,6 +42,7 @@ RUN pear install PHP_CodeSniffer
 # Install and enable php extensions
 RUN docker-php-ext-enable \
     imagick \
+    opcache \
     xdebug
 RUN docker-php-ext-install \
     curl \
@@ -52,8 +58,9 @@ RUN docker-php-ext-install \
     gd \
     zip \
     bcmath
-RUN docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
-	&& docker-php-ext-install imap 
+
+RUN docker-php-ext-configure imap --with-imap --with-imap-ssl \
+    && docker-php-ext-install imap
 
 # Install composer
 RUN curl -s https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
